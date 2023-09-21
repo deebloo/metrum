@@ -1,0 +1,21 @@
+[package]
+name = "metrum"
+description = "Easily work with and compare temeratures in different units"
+version = "0.6.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/deebloo/metrum"
+homepage = "https://github.com/deebloo/metrum"
+documentation = "https://github.com/deebloo/metrum"
+
+[dependencies]
+serde = { version = "1.0.188", optional = true }
+
+[features]
+serde = ["dep:serde", "serde/derive"]
+
+[dev-dependencies]
+serde = { version = "1.0.188", features = ["derive"] }
+serde_json = { version = "1.0.107" }
+metrum = { path = ".", features = ["serde"] }
+ 

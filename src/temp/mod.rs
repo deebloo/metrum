@@ -1,5 +1,6 @@
 mod ops;
 
+use crate::util::round;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
@@ -71,12 +72,6 @@ impl Into<f32> for Temp {
     }
 }
 
-pub fn round(val: f32) -> f32 {
-    let res = (val * 1000.).round() / 1000.;
-
-    res
-}
-
 #[cfg(test)]
 mod tests {
     use std::fs;
@@ -95,7 +90,7 @@ mod tests {
 
     #[test]
     fn should_convert_correctly() {
-        let data_string = fs::read_to_string("data/conversions.json").unwrap();
+        let data_string = fs::read_to_string("data/temps.json").unwrap();
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
 
         for entry in data.0 {

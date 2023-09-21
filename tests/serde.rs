@@ -1,4 +1,4 @@
-use metrum::temp::Temp;
+use metrum::Temp;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]

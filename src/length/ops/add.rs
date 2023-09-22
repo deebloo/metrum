@@ -26,4 +26,13 @@ impl Add for Length {
 }
 
 #[cfg(test)]
-mod tests {}
+mod tests {
+    use super::*;
+
+    #[test]
+    fn should_add_to_in() {
+        assert_eq!(Length::In(36.) + Length::In(36.), Length::In(72.));
+        assert_eq!(Length::In(36.) + Length::Ft(3.), Length::In(72.));
+        assert_eq!(Length::In(36.) + Length::Yd(1.), Length::In(72.));
+    }
+}

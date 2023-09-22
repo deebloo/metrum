@@ -5,7 +5,7 @@ impl Length {
         match self {
             Self::In(_) => *self,
             Self::Ft(val) => Self::In(val * 12.),
-            Self::Yrd(val) => Self::In(val * 36.),
+            Self::Yd(val) => Self::In(val * 36.),
         }
     }
 }

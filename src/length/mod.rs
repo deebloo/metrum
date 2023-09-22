@@ -9,8 +9,8 @@ use serde::{Deserialize, Serialize};
 pub enum Length {
     In(f32),
     Ft(f32),
-    Yrd(f32),
-    // Mile(f32),
+    Yd(f32),
+    // Mi(f32),
     // MM(f32),
     // CM(f32),
     // M(f32),
@@ -22,7 +22,7 @@ impl Into<f32> for Length {
         match self {
             Self::In(val) => val,
             Self::Ft(val) => val,
-            Self::Yrd(val) => val,
+            Self::Yd(val) => val,
         }
     }
 }
@@ -39,7 +39,7 @@ mod tests {
     fn should_convert_to_f32() {
         let inch: f32 = Length::In(1.).into();
         let feet: f32 = Length::Ft(2.).into();
-        let yards: f32 = Length::Yrd(3.).into();
+        let yards: f32 = Length::Yd(3.).into();
 
         assert_eq!(inch, 1.);
         assert_eq!(feet, 2.);
@@ -68,7 +68,11 @@ mod tests {
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
 
         for entry in data.0 {
-            assert_eq!(Length::In(entry.inches), Length::Ft(entry.feet).as_inches())
+            assert_eq!(Length::In(entry.inches), Length::Ft(entry.feet).as_inches());
+            assert_eq!(
+                Length::In(entry.inches),
+                Length::Yd(entry.yards).as_inches()
+            );
         }
     }
 }

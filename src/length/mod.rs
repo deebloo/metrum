@@ -52,14 +52,14 @@ mod tests {
     #[allow(non_snake_case)]
     #[derive(Debug, Serialize, Deserialize)]
     struct LengthData {
-        Inches: f32,
-        Feet: f32,
-        Yards: f32,
-        Miles: f32,
-        Millimeters: f32,
-        Centimeters: f32,
-        Meters: f32,
-        Kilometers: f32,
+        inches: f32,
+        feet: f32,
+        yards: f32,
+        mm: f32,
+        cm: f32,
+        m: f32,
+        km: f32,
+        miles: f32,
     }
 
     #[test]
@@ -68,7 +68,7 @@ mod tests {
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
 
         for entry in data.0 {
-            assert_eq!(Length::In(entry.Inches), Length::Ft(entry.Feet).as_inches())
+            assert_eq!(Length::In(entry.inches), Length::Ft(entry.feet).as_inches())
         }
     }
 }

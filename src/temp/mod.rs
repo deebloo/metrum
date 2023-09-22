@@ -1,6 +1,5 @@
 mod ops;
 
-use crate::util::round;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
@@ -70,6 +69,12 @@ impl Into<f32> for Temp {
             Self::K(val) => val,
         }
     }
+}
+
+pub fn round(val: f32) -> f32 {
+    let res = (val * 1000.).round() / 1000.;
+
+    res
 }
 
 #[cfg(test)]

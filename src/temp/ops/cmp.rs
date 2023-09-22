@@ -69,7 +69,7 @@ mod tests {
 
     #[test]
     fn should_convert_correctly() {
-        let data_string = fs::read_to_string("data/conversions.json").unwrap();
+        let data_string = fs::read_to_string("data/temps.json").unwrap();
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
 
         for entry in data.0 {

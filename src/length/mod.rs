@@ -73,6 +73,9 @@ mod tests {
                 Length::In(entry.inches),
                 Length::Yd(entry.yards).as_inches()
             );
+
+            assert_eq!(Length::Ft(entry.feet), Length::In(entry.inches).as_feet());
+            assert_eq!(Length::Ft(entry.feet), Length::Yd(entry.yards).as_feet());
         }
     }
 }

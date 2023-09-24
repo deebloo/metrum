@@ -6,9 +6,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Temp {
-    C(f32),
-    F(f32),
-    K(f32),
+    C(f64),
+    F(f64),
+    K(f64),
 }
 
 impl Temp {
@@ -44,7 +44,7 @@ impl Temp {
         match self {
             Self::C(val) => Self::K(val + 273.15),
             Self::F(_) => {
-                let c: f32 = self.as_c().into();
+                let c: f64 = self.as_c().into();
 
                 Temp::K(c + 273.15)
             }
@@ -61,8 +61,8 @@ impl Temp {
     }
 }
 
-impl Into<f32> for Temp {
-    fn into(self) -> f32 {
+impl Into<f64> for Temp {
+    fn into(self) -> f64 {
         match self {
             Self::C(val) => val,
             Self::F(val) => val,
@@ -71,7 +71,7 @@ impl Into<f32> for Temp {
     }
 }
 
-pub fn round(val: f32) -> f32 {
+pub fn round(val: f64) -> f64 {
     let res = (val * 1000.).round() / 1000.;
 
     res
@@ -88,9 +88,9 @@ mod tests {
 
     #[derive(Debug, Serialize, Deserialize)]
     struct Conversion {
-        celsius: f32,
-        fahrenheit: f32,
-        kelvin: f32,
+        celsius: f64,
+        fahrenheit: f64,
+        kelvin: f64,
     }
 
     #[test]

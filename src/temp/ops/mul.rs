@@ -7,17 +7,17 @@ impl Mul for Temp {
     fn mul(self, rhs: Self) -> Self::Output {
         match self {
             Self::C(val) => {
-                let target: f32 = rhs.as_c().into();
+                let target: f64 = rhs.as_c().into();
 
                 Self::C(val * target)
             }
             Self::F(val) => {
-                let target: f32 = rhs.as_f().into();
+                let target: f64 = rhs.as_f().into();
 
                 Self::F(val * target)
             }
             Self::K(val) => {
-                let target: f32 = rhs.as_k().into();
+                let target: f64 = rhs.as_k().into();
 
                 Self::K(val * target)
             }

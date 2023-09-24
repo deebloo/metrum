@@ -7,17 +7,17 @@ impl Add for Length {
     fn add(self, rhs: Self) -> Self::Output {
         match self {
             Self::In(val) => {
-                let target: f32 = rhs.as_inches().into();
+                let target: f64 = rhs.as_inches().into();
 
                 Self::In(val + target)
             }
             Self::Ft(val) => {
-                let target: f32 = rhs.as_feet().into();
+                let target: f64 = rhs.as_feet().into();
 
                 Self::Ft(val + target)
             }
             Self::Yd(val) => {
-                let target: f32 = rhs.as_yards().into();
+                let target: f64 = rhs.as_yards().into();
 
                 Self::Yd(val + target)
             }

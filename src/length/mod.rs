@@ -7,18 +7,18 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Length {
-    In(f32),
-    Ft(f32),
-    Yd(f32),
-    // Mi(f32),
-    // MM(f32),
-    // CM(f32),
-    // M(f32),
-    // KM(f32),
+    In(f64),
+    Ft(f64),
+    Yd(f64),
+    // Mi(f64),
+    // MM(f64),
+    // CM(f64),
+    // M(f64),
+    // KM(f64),
 }
 
-impl Into<f32> for Length {
-    fn into(self) -> f32 {
+impl Into<f64> for Length {
+    fn into(self) -> f64 {
         match self {
             Self::In(val) => val,
             Self::Ft(val) => val,
@@ -36,10 +36,10 @@ mod tests {
     use super::*;
 
     #[test]
-    fn should_convert_to_f32() {
-        let inch: f32 = Length::In(1.).into();
-        let feet: f32 = Length::Ft(2.).into();
-        let yards: f32 = Length::Yd(3.).into();
+    fn should_convert_to_f64() {
+        let inch: f64 = Length::In(1.).into();
+        let feet: f64 = Length::Ft(2.).into();
+        let yards: f64 = Length::Yd(3.).into();
 
         assert_eq!(inch, 1.);
         assert_eq!(feet, 2.);
@@ -52,14 +52,14 @@ mod tests {
     #[allow(non_snake_case)]
     #[derive(Debug, Serialize, Deserialize)]
     struct LengthData {
-        inches: f32,
-        feet: f32,
-        yards: f32,
-        mm: f32,
-        cm: f32,
-        m: f32,
-        km: f32,
-        miles: f32,
+        inches: f64,
+        feet: f64,
+        yards: f64,
+        // mm: f64,
+        // cm: f64,
+        // m: f64,
+        // km: f64,
+        // miles: f64,
     }
 
     #[test]

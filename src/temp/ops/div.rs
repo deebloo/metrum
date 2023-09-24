@@ -7,17 +7,17 @@ impl Div for Temp {
     fn div(self, rhs: Self) -> Self::Output {
         match self {
             Self::C(val) => {
-                let target: f32 = rhs.as_c().into();
+                let target: f64 = rhs.as_c().into();
 
                 Self::C(val / target).round()
             }
             Self::F(val) => {
-                let target: f32 = rhs.as_f().into();
+                let target: f64 = rhs.as_f().into();
 
                 Self::F(val / target).round()
             }
             Self::K(val) => {
-                let target: f32 = rhs.as_k().into();
+                let target: f64 = rhs.as_k().into();
 
                 Self::K(val / target).round()
             }

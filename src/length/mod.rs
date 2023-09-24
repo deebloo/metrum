@@ -17,6 +17,16 @@ pub enum Length {
     // KM(f64),
 }
 
+impl Length {
+    pub fn round(&self) -> Self {
+        match self {
+            Self::In(val) => Self::In(round(*val)),
+            Self::Ft(val) => Self::Ft(round(*val)),
+            Self::Yd(val) => Self::Yd(round(*val)),
+        }
+    }
+}
+
 impl Into<f64> for Length {
     fn into(self) -> f64 {
         match self {
@@ -25,6 +35,12 @@ impl Into<f64> for Length {
             Self::Yd(val) => val,
         }
     }
+}
+
+pub fn round(val: f64) -> f64 {
+    let res = (val * 10000.).round() / 10000.;
+
+    res
 }
 
 #[cfg(test)]

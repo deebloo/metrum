@@ -15,13 +15,13 @@ pub enum Temp {
 impl Temp {
     pub fn as_c(&self) -> Self {
         match self {
-            Self::C(val) => Self::C(round(*val)),
+            Self::C(val) => Self::C(*val),
             Self::F(val) => {
                 let raw = (val - 32.) * (5. / 9.);
 
-                Temp::C(round(raw))
+                Temp::C(raw)
             }
-            Self::K(val) => Temp::C(round(val - 273.15)),
+            Self::K(val) => Temp::C(val - 273.15),
         }
     }
 
@@ -30,13 +30,13 @@ impl Temp {
             Self::C(temp) => {
                 let raw = (temp * (9. / 5.)) + 32.;
 
-                Temp::F(round(raw))
+                Temp::F(raw)
             }
-            Self::F(val) => Self::F(round(*val)),
+            Self::F(val) => Self::F(*val),
             Self::K(temp) => {
                 let raw = (temp - 273.15) * (9. / 5.) + 32.;
 
-                Self::F(round(raw))
+                Self::F(raw)
             }
         }
     }
@@ -49,7 +49,7 @@ impl Temp {
 
                 Temp::K(c + 273.15)
             }
-            Self::K(val) => Self::K(round(*val)),
+            Self::K(val) => Self::K(*val),
         }
     }
 
@@ -62,6 +62,10 @@ impl Temp {
     }
 }
 
+fn round(val: f64) -> f64 {
+    (val * 1000.).round() / 1000.
+}
+
 impl Into<f64> for Temp {
     fn into(self) -> f64 {
         match self {
@@ -70,12 +74,6 @@ impl Into<f64> for Temp {
             Self::K(val) => val,
         }
     }
-}
-
-pub fn round(val: f64) -> f64 {
-    let res = (val * 1000.).round() / 1000.;
-
-    res
 }
 
 #[cfg(test)]

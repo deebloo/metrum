@@ -9,17 +9,17 @@ impl Div for Temp {
             Self::C(val) => {
                 let target: f64 = rhs.as_c().into();
 
-                Self::C(val / target).round()
+                Self::C(val / target)
             }
             Self::F(val) => {
                 let target: f64 = rhs.as_f().into();
 
-                Self::F(val / target).round()
+                Self::F(val / target)
             }
             Self::K(val) => {
                 let target: f64 = rhs.as_k().into();
 
-                Self::K(val / target).round()
+                Self::K(val / target)
             }
         }
     }
@@ -46,9 +46,9 @@ mod tests {
         let fc = Temp::F(2.) / Temp::C(0.);
         let fk = Temp::F(2.) / Temp::K(273.15);
 
-        assert_eq!(ff, Temp::F(0.063));
-        assert_eq!(fc, Temp::F(0.063));
-        assert_eq!(fk, Temp::F(0.063));
+        assert_eq!(ff, Temp::F(0.0625));
+        assert_eq!(fc, Temp::F(0.0625));
+        assert_eq!(fk, Temp::F(0.0625));
     }
 
     #[test]
@@ -57,8 +57,8 @@ mod tests {
         let kc = Temp::K(15.) / Temp::C(0.);
         let kf = Temp::K(15.) / Temp::F(32.);
 
-        assert_eq!(kk, Temp::K(0.055));
-        assert_eq!(kf, Temp::K(0.055));
-        assert_eq!(kc, Temp::K(0.055));
+        assert_eq!(kk, Temp::K(0.054914881933003847));
+        assert_eq!(kf, Temp::K(0.054914881933003847));
+        assert_eq!(kc, Temp::K(0.054914881933003847));
     }
 }

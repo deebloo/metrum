@@ -47,8 +47,8 @@ mod tests {
         let fk = Temp::F(100.) + Temp::K(310.928);
 
         assert_eq!(ff, Temp::F(200.));
-        assert_eq!(fc, Temp::F(200.));
-        assert_eq!(fk, Temp::F(200.));
+        assert_eq!(fc, Temp::F(200.0004));
+        assert_eq!(fk, Temp::F(200.00040000000004));
     }
 
     #[test]

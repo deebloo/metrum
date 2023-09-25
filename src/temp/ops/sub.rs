@@ -46,9 +46,9 @@ mod tests {
         let fc = Temp::F(100.) - Temp::C(37.778);
         let fk = Temp::F(100.) - Temp::K(310.928);
 
-        assert_eq!(ff, Temp::F(0.));
-        assert_eq!(fc, Temp::F(0.));
-        assert_eq!(fk, Temp::F(0.));
+        assert_eq!(ff.round(), Temp::F(0.));
+        assert_eq!(fc.round(), Temp::F(0.));
+        assert_eq!(fk.round(), Temp::F(0.));
     }
 
     #[test]

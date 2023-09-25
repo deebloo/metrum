@@ -2,7 +2,7 @@
 
 Easily handle measurement values in rust.
 
-The goal is to work with measurements without needing to think about about units at all.
+The goal is to work with measurements without needing to think about about units until you absolutely have to.
 
 For example: A `Temp` is itself a value. The units are just for display back to the user.
 

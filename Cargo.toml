@@ -5,8 +5,7 @@ version = "0.5.0"
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/deebloo/metrum"
-homepage = "https://github.com/deebloo/metrum"
-documentation = "https://github.com/deebloo/metrum"
+documentation = "https://docs.rs/metrum/0.5.0"
 
 [dependencies]
 serde = { version = "1.0.188", optional = true }

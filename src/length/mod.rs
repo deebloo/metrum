@@ -86,12 +86,14 @@ mod tests {
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
 
         for entry in data.0 {
+            // Inches
             assert_eq!(Length::In(entry.inches), Length::Ft(entry.feet).as_inches());
             assert_eq!(
                 Length::In(entry.inches),
                 Length::Yd(entry.yards).as_inches()
             );
 
+            // Feet
             assert_eq!(Length::Ft(entry.feet), Length::In(entry.inches).as_feet());
             assert_eq!(Length::Ft(entry.feet), Length::Yd(entry.yards).as_feet());
         }

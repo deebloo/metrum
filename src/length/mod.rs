@@ -77,7 +77,7 @@ mod tests {
         // cm: f64,
         // m: f64,
         // km: f64,
-        // miles: f64,
+        miles: f64,
     }
 
     #[test]
@@ -92,14 +92,20 @@ mod tests {
                 Length::In(entry.inches),
                 Length::Yd(entry.yards).as_inches()
             );
+            assert_eq!(
+                Length::In(entry.inches),
+                Length::Mi(entry.miles).as_inches()
+            );
 
             // Feet
             assert_eq!(Length::Ft(entry.feet), Length::In(entry.inches).as_feet());
             assert_eq!(Length::Ft(entry.feet), Length::Yd(entry.yards).as_feet());
+            assert_eq!(Length::Ft(entry.feet), Length::Mi(entry.miles).as_feet());
 
             // Yards
             assert_eq!(Length::Yd(entry.yards), Length::In(entry.inches).as_yards());
             assert_eq!(Length::Yd(entry.yards), Length::Ft(entry.feet).as_yards());
+            assert_eq!(Length::Yd(entry.yards), Length::Mi(entry.miles).as_yards());
         }
     }
 }

@@ -106,6 +106,11 @@ mod tests {
             assert_eq!(Length::Yd(entry.yards), Length::In(entry.inches).as_yards());
             assert_eq!(Length::Yd(entry.yards), Length::Ft(entry.feet).as_yards());
             assert_eq!(Length::Yd(entry.yards), Length::Mi(entry.miles).as_yards());
+
+            // Miles
+            assert_eq!(Length::Mi(entry.miles), Length::In(entry.inches).as_miles());
+            assert_eq!(Length::Mi(entry.miles), Length::Ft(entry.feet).as_miles());
+            assert_eq!(Length::Mi(entry.miles), Length::Yd(entry.yards).as_miles());
         }
     }
 }

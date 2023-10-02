@@ -10,7 +10,7 @@ pub enum Length {
     In(f64),
     Ft(f64),
     Yd(f64),
-    // Mi(f64),
+    Mi(f64),
     // MM(f64),
     // CM(f64),
     // M(f64),
@@ -23,6 +23,7 @@ impl Length {
             Self::In(val) => Self::In(round(*val)),
             Self::Ft(val) => Self::Ft(round(*val)),
             Self::Yd(val) => Self::Yd(round(*val)),
+            Self::Mi(val) => Self::Mi(round(*val)),
         }
     }
 }
@@ -33,6 +34,7 @@ impl Into<f64> for Length {
             Self::In(val) => val,
             Self::Ft(val) => val,
             Self::Yd(val) => val,
+            Self::Mi(val) => val,
         }
     }
 }

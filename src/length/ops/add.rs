@@ -21,6 +21,11 @@ impl Add for Length {
 
                 Self::Yd(val + target)
             }
+            Self::Mi(val) => {
+                let target: f64 = rhs.as_miles().into();
+
+                Self::Mi(val + target)
+            }
         }
     }
 }

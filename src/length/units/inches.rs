@@ -11,3 +11,11 @@ impl Length {
         }
     }
 }
+
+#[test]
+fn should_convert() {
+    assert_eq!(Length::In(12.), Length::Ft(1.).as_inches());
+    assert_eq!(Length::In(36.), Length::Yd(1.).as_inches());
+    assert_eq!(Length::In(63360.), Length::Mi(1.).as_inches());
+    assert_eq!(Length::In(1.), Length::MM(25.4).as_inches());
+}

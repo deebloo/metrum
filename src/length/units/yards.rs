@@ -7,6 +7,7 @@ impl Length {
             Self::Ft(val) => Self::Yd(val / 3.),
             Self::Yd(_) => *self,
             Self::Mi(val) => Self::Yd(val * 1760.),
+            Self::MM(val) => Self::Yd(val / 914.4),
         }
     }
 }

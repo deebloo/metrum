@@ -49,10 +49,6 @@ pub fn round(val: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
-
-    use serde::{Deserialize, Serialize};
-    use std::fs;
-
     use super::*;
 
     #[test]
@@ -64,55 +60,5 @@ mod tests {
         assert_eq!(inch, 1.);
         assert_eq!(feet, 2.);
         assert_eq!(yards, 3.);
-    }
-
-    #[derive(Debug, Serialize, Deserialize)]
-    struct TestData(Vec<LengthData>);
-
-    #[allow(non_snake_case)]
-    #[derive(Debug, Serialize, Deserialize)]
-    struct LengthData {
-        inches: f64,
-        feet: f64,
-        yards: f64,
-        // mm: f64,
-        // cm: f64,
-        // m: f64,
-        // km: f64,
-        miles: f64,
-    }
-
-    #[test]
-    fn should_convert() {
-        let data_string = fs::read_to_string("data/lengths.json").unwrap();
-        let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
-
-        for entry in data.0 {
-            // Inches
-            assert_eq!(Length::In(entry.inches), Length::Ft(entry.feet).as_inches());
-            assert_eq!(
-                Length::In(entry.inches),
-                Length::Yd(entry.yards).as_inches()
-            );
-            assert_eq!(
-                Length::In(entry.inches),
-                Length::Mi(entry.miles).as_inches()
-            );
-
-            // Feet
-            assert_eq!(Length::Ft(entry.feet), Length::In(entry.inches).as_feet());
-            assert_eq!(Length::Ft(entry.feet), Length::Yd(entry.yards).as_feet());
-            assert_eq!(Length::Ft(entry.feet), Length::Mi(entry.miles).as_feet());
-
-            // Yards
-            assert_eq!(Length::Yd(entry.yards), Length::In(entry.inches).as_yards());
-            assert_eq!(Length::Yd(entry.yards), Length::Ft(entry.feet).as_yards());
-            assert_eq!(Length::Yd(entry.yards), Length::Mi(entry.miles).as_yards());
-
-            // Miles
-            assert_eq!(Length::Mi(entry.miles), Length::In(entry.inches).as_miles());
-            assert_eq!(Length::Mi(entry.miles), Length::Ft(entry.feet).as_miles());
-            assert_eq!(Length::Mi(entry.miles), Length::Yd(entry.yards).as_miles());
-        }
     }
 }

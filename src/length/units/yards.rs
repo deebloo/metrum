@@ -11,3 +11,11 @@ impl Length {
         }
     }
 }
+
+#[test]
+fn should_convert_to_feet() {
+    assert_eq!(Length::Yd(1.), Length::In(36.).as_yards());
+    assert_eq!(Length::Yd(1.), Length::Ft(3.).as_yards());
+    assert_eq!(Length::Yd(1760.), Length::Mi(1.).as_yards());
+    assert_eq!(Length::Yd(1.), Length::MM(914.4).as_yards());
+}

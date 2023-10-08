@@ -11,3 +11,11 @@ impl Length {
         }
     }
 }
+
+#[test]
+fn should_convert_to_milimeters() {
+    assert_eq!(Length::MM(25.4), Length::In(1.).as_milimeters());
+    assert_eq!(Length::MM(304.8), Length::Ft(1.).as_milimeters());
+    assert_eq!(Length::MM(914.4), Length::Yd(1.).as_milimeters());
+    assert_eq!(Length::MM(1.609e+6), Length::Mi(1.).as_milimeters());
+}

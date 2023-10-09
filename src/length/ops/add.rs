@@ -26,6 +26,11 @@ impl Add for Length {
 
                 Self::Mi(val + target)
             }
+            Self::MM(val) => {
+                let target: f64 = rhs.as_milimeters().into();
+
+                Self::MM(val + target)
+            }
         }
     }
 }

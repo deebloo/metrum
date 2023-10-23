@@ -4,6 +4,8 @@ mod ops;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
+pub fn hello() {}
+
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Temp {

@@ -1,4 +1,4 @@
-# metrum - test
+# metrum
 
 Easily handle measurement values in rust.
 

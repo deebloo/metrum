@@ -15,5 +15,5 @@ serde = ["dep:serde"]
 
 [dev-dependencies]
 serde = { version = "1.0.195", features = ["derive"] }
-serde_json = { version = "1.0.111" }
+serde_json = { version = "1.0.112" }
 metrum = { path = ".", features = ["serde"] }

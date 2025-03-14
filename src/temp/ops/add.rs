@@ -7,17 +7,17 @@ impl Add for Temp {
     fn add(self, rhs: Self) -> Self::Output {
         match self {
             Self::C(val) => {
-                let target: f64 = rhs.as_c().into();
+                let target: f32 = rhs.as_c().into();
 
                 Self::C(val + target)
             }
             Self::F(val) => {
-                let target: f64 = rhs.as_f().into();
+                let target: f32 = rhs.as_f().into();
 
                 Self::F(val + target)
             }
             Self::K(val) => {
-                let target: f64 = rhs.as_k().into();
+                let target: f32 = rhs.as_k().into();
 
                 Self::K(val + target)
             }
@@ -48,7 +48,7 @@ mod tests {
 
         assert_eq!(ff, Temp::F(200.));
         assert_eq!(fc, Temp::F(200.0004));
-        assert_eq!(fk, Temp::F(200.00040000000004));
+        assert_eq!(fk, Temp::F(200.00043));
     }
 
     #[test]

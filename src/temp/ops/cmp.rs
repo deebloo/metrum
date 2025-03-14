@@ -2,8 +2,8 @@ use crate::temp::Temp;
 
 impl PartialOrd for Temp {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        let source: f64 = (*self).as_k().into();
-        let target: f64 = (*other).as_k().into();
+        let source: f32 = (*self).as_k().into();
+        let target: f32 = (*other).as_k().into();
 
         let mut res = std::cmp::Ordering::Equal;
 
@@ -19,8 +19,8 @@ impl PartialOrd for Temp {
 
 impl PartialEq for Temp {
     fn eq(&self, other: &Self) -> bool {
-        let source: f64 = (*self).as_k().into();
-        let target: f64 = (*other).as_k().into();
+        let source: f32 = (*self).as_k().into();
+        let target: f32 = (*other).as_k().into();
 
         source == target
     }
@@ -62,9 +62,9 @@ mod tests {
 
     #[derive(Debug, Serialize, Deserialize)]
     struct Conversion {
-        celsius: f64,
-        fahrenheit: f64,
-        kelvin: f64,
+        celsius: f32,
+        fahrenheit: f32,
+        kelvin: f32,
     }
 
     #[test]

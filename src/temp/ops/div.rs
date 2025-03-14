@@ -7,17 +7,17 @@ impl Div for Temp {
     fn div(self, rhs: Self) -> Self::Output {
         match self {
             Self::C(val) => {
-                let target: f64 = rhs.as_c().into();
+                let target: f32 = rhs.as_c().into();
 
                 Self::C(val / target)
             }
             Self::F(val) => {
-                let target: f64 = rhs.as_f().into();
+                let target: f32 = rhs.as_f().into();
 
                 Self::F(val / target)
             }
             Self::K(val) => {
-                let target: f64 = rhs.as_k().into();
+                let target: f32 = rhs.as_k().into();
 
                 Self::K(val / target)
             }
@@ -57,8 +57,8 @@ mod tests {
         let kc = Temp::K(15.) / Temp::C(0.);
         let kf = Temp::K(15.) / Temp::F(32.);
 
-        assert_eq!(kk, Temp::K(0.054914881933003847));
-        assert_eq!(kf, Temp::K(0.054914881933003847));
-        assert_eq!(kc, Temp::K(0.054914881933003847));
+        assert_eq!(kk, Temp::K(0.054914884));
+        assert_eq!(kf, Temp::K(0.054914884));
+        assert_eq!(kc, Temp::K(0.054914884));
     }
 }

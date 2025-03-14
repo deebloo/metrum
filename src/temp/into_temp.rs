@@ -1,4 +1,4 @@
-use crate::Temp;
+use crate::temp::Temp;
 
 pub trait IntoTemp {
     fn into_tempc(self) -> Temp;
@@ -6,7 +6,7 @@ pub trait IntoTemp {
     fn into_tempk(self) -> Temp;
 }
 
-impl IntoTemp for f64 {
+impl IntoTemp for f32 {
     fn into_tempc(self) -> Temp {
         Temp::C(self)
     }

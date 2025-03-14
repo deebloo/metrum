@@ -1,4 +1,4 @@
-mod into_temp;
+pub mod into_temp;
 mod ops;
 
 #[cfg(feature = "serde")]
@@ -7,9 +7,9 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Temp {
-    C(f64),
-    F(f64),
-    K(f64),
+    C(f32),
+    F(f32),
+    K(f32),
 }
 
 impl Temp {
@@ -45,7 +45,7 @@ impl Temp {
         match self {
             Self::C(val) => Self::K(val + 273.15),
             Self::F(_) => {
-                let c: f64 = self.as_c().into();
+                let c: f32 = self.as_c().into();
 
                 Temp::K(c + 273.15)
             }
@@ -53,21 +53,29 @@ impl Temp {
         }
     }
 
+    pub fn round_to(&self, places: f32) -> Self {
+        match self {
+            Self::C(val) => Self::C(round(*val, places)),
+            Self::F(val) => Self::F(round(*val, places)),
+            Self::K(val) => Self::K(round(*val, places)),
+        }
+    }
+
     pub fn round(&self) -> Self {
         match self {
-            Self::C(val) => Self::C(round(*val)),
-            Self::F(val) => Self::F(round(*val)),
-            Self::K(val) => Self::K(round(*val)),
+            Self::C(val) => Self::C(round(*val, 10.)),
+            Self::F(val) => Self::F(round(*val, 10.)),
+            Self::K(val) => Self::K(round(*val, 10.)),
         }
     }
 }
 
-fn round(val: f64) -> f64 {
-    (val * 1000.).round() / 1000.
+fn round(val: f32, places: f32) -> f32 {
+    (val * places).round() / places
 }
 
-impl Into<f64> for Temp {
-    fn into(self) -> f64 {
+impl Into<f32> for Temp {
+    fn into(self) -> f32 {
         match self {
             Self::C(val) => val,
             Self::F(val) => val,
@@ -87,9 +95,9 @@ mod tests {
 
     #[derive(Debug, Serialize, Deserialize)]
     struct Conversion {
-        celsius: f64,
-        fahrenheit: f64,
-        kelvin: f64,
+        celsius: f32,
+        fahrenheit: f32,
+        kelvin: f32,
     }
 
     #[test]

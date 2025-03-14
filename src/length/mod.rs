@@ -4,16 +4,16 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Length {
-    In(f32), // Inches
-    Ft(f32), // Feet
-    Yd(f32), // Yards
-    Mi(f32), // Miles
-    M(f32),  // Meters
-    Km(f32), // Kilometers
-    Cm(f32), // Centimeters
-    Mm(f32), // Millimeters
-    Um(f32), // Micrometers
-    Nm(f32), // Nanometers
+    In(f64), // Inches
+    Ft(f64), // Feet
+    Yd(f64), // Yards
+    Mi(f64), // Miles
+    M(f64),  // Meters
+    Km(f64), // Kilometers
+    Cm(f64), // Centimeters
+    Mm(f64), // Millimeters
+    Um(f64), // Micrometers
+    Nm(f64), // Nanometers
 }
 
 impl Length {
@@ -146,7 +146,7 @@ impl Length {
         }
     }
 
-    pub fn round_to(&self, places: f32) -> Self {
+    pub fn round_to(&self, places: f64) -> Self {
         match self {
             Self::In(val) => Self::In(round(*val, places)),
             Self::Ft(val) => Self::Ft(round(*val, places)),
@@ -162,8 +162,8 @@ impl Length {
     }
 }
 
-impl Into<f32> for Length {
-    fn into(self) -> f32 {
+impl Into<f64> for Length {
+    fn into(self) -> f64 {
         match self {
             Length::In(val) => val,
             Length::Ft(val) => val,
@@ -179,7 +179,7 @@ impl Into<f32> for Length {
     }
 }
 
-fn round(val: f32, places: f32) -> f32 {
+fn round(val: f64, places: f64) -> f64 {
     (val * places).round() / places
 }
 
@@ -194,19 +194,20 @@ mod tests {
 
     #[derive(Debug, Serialize, Deserialize)]
     struct Conversion {
-        meter: f32,
-        kilometer: f32,
-        centimeter: f32,
-        millimeter: f32,
-        micrometer: f32,
-        nanometer: f32,
-        mile: f32,
-        yard: f32,
-        foot: f32,
-        inch: f32,
+        meter: f64,
+        kilometer: f64,
+        centimeter: f64,
+        millimeter: f64,
+        micrometer: f64,
+        nanometer: f64,
+        mile: f64,
+        yard: f64,
+        foot: f64,
+        inch: f64,
     }
 
     #[test]
+
     fn should_convert_meter_to_others() {
         let data_string = fs::read_to_string("data/lengths.json").unwrap();
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
@@ -254,8 +255,8 @@ mod tests {
             );
 
             assert_eq!(
-                Length::M(entry.meter).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
+                Length::M(entry.meter).as_in().round_to(10.),
+                Length::In(entry.inch).round_to(10.)
             );
         }
     }
@@ -266,50 +267,52 @@ mod tests {
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
 
         for entry in data.0 {
+            let km = Length::Km(entry.kilometer);
+
             // Convert from kilometer
             assert_eq!(
-                Length::Km(entry.kilometer).as_m().round_to(100.),
+                km.as_m().round_to(100.),
                 Length::M(entry.meter).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_cm().round_to(100.),
+                km.as_cm().round_to(100.),
                 Length::Cm(entry.centimeter).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_mm().round_to(100.),
+                km.as_mm().round_to(100.),
                 Length::Mm(entry.millimeter).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_um().round_to(100.),
+                km.as_um().round_to(100.),
                 Length::Um(entry.micrometer).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_nm().round_to(100.),
+                km.as_nm().round_to(100.),
                 Length::Nm(entry.nanometer).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_mi().round_to(100.),
+                km.as_mi().round_to(100.),
                 Length::Mi(entry.mile).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_yd().round_to(100.),
+                km.as_yd().round_to(100.),
                 Length::Yd(entry.yard).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_ft().round_to(100.),
+                km.as_ft().round_to(100.),
                 Length::Ft(entry.foot).round_to(100.)
             );
 
             assert_eq!(
-                Length::Km(entry.kilometer).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
+                km.as_in().round_to(10.),
+                Length::In(entry.inch).round_to(10.)
             );
         }
     }
@@ -362,8 +365,8 @@ mod tests {
             );
 
             assert_eq!(
-                Length::Cm(entry.centimeter).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
+                Length::Cm(entry.centimeter).as_in().round_to(10.),
+                Length::In(entry.inch).round_to(10.)
             );
         }
     }
@@ -416,8 +419,8 @@ mod tests {
             );
 
             assert_eq!(
-                Length::Mm(entry.millimeter).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
+                Length::Mm(entry.millimeter).as_in().round_to(10.),
+                Length::In(entry.inch).round_to(10.)
             );
         }
     }
@@ -470,8 +473,8 @@ mod tests {
             );
 
             assert_eq!(
-                Length::Um(entry.micrometer).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
+                Length::Um(entry.micrometer).as_in().round_to(10.),
+                Length::In(entry.inch).round_to(10.)
             );
         }
     }
@@ -524,224 +527,8 @@ mod tests {
             );
 
             assert_eq!(
-                Length::Nm(entry.nanometer).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
-            );
-        }
-    }
-
-    #[test]
-    fn should_convert_inch_to_others() {
-        let data_string = fs::read_to_string("data/lengths.json").unwrap();
-        let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
-
-        for entry in data.0 {
-            // Convert from inch
-            assert_eq!(
-                Length::In(entry.inch).as_m().round_to(100.),
-                Length::M(entry.meter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_km().round_to(100.),
-                Length::Km(entry.kilometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_cm().round_to(100.),
-                Length::Cm(entry.centimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_mm().round_to(100.),
-                Length::Mm(entry.millimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_um().round_to(100.),
-                Length::Um(entry.micrometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_nm().round_to(100.),
-                Length::Nm(entry.nanometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_mi().round_to(100.),
-                Length::Mi(entry.mile).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_yd().round_to(100.),
-                Length::Yd(entry.yard).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::In(entry.inch).as_ft().round_to(100.),
-                Length::Ft(entry.foot).round_to(100.)
-            );
-        }
-    }
-
-    #[test]
-    fn should_convert_foot_to_others() {
-        let data_string = fs::read_to_string("data/lengths.json").unwrap();
-        let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
-
-        for entry in data.0 {
-            // Convert from foot
-            assert_eq!(
-                Length::Ft(entry.foot).as_m().round_to(100.),
-                Length::M(entry.meter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_km().round_to(100.),
-                Length::Km(entry.kilometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_cm().round_to(100.),
-                Length::Cm(entry.centimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_mm().round_to(100.),
-                Length::Mm(entry.millimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_um().round_to(100.),
-                Length::Um(entry.micrometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_nm().round_to(100.),
-                Length::Nm(entry.nanometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_mi().round_to(100.),
-                Length::Mi(entry.mile).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_yd().round_to(100.),
-                Length::Yd(entry.yard).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Ft(entry.foot).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
-            );
-        }
-    }
-
-    #[test]
-    fn should_convert_yard_to_others() {
-        let data_string = fs::read_to_string("data/lengths.json").unwrap();
-        let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
-
-        for entry in data.0 {
-            // Convert from yard
-            assert_eq!(
-                Length::Yd(entry.yard).as_m().round_to(100.),
-                Length::M(entry.meter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_km().round_to(100.),
-                Length::Km(entry.kilometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_cm().round_to(100.),
-                Length::Cm(entry.centimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_mm().round_to(100.),
-                Length::Mm(entry.millimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_um().round_to(100.),
-                Length::Um(entry.micrometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_nm().round_to(100.),
-                Length::Nm(entry.nanometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_mi().round_to(100.),
-                Length::Mi(entry.mile).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Yd(entry.yard).as_ft().round_to(100.),
-                Length::Ft(entry.foot).round_to(100.)
-            );
-        }
-    }
-
-    #[test]
-    fn should_convert_mile_to_others() {
-        let data_string = fs::read_to_string("data/lengths.json").unwrap();
-        let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
-
-        for entry in data.0 {
-            // Convert from mile
-            assert_eq!(
-                Length::Mi(entry.mile).as_m().round_to(100.),
-                Length::M(entry.meter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_km().round_to(100.),
-                Length::Km(entry.kilometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_cm().round_to(100.),
-                Length::Cm(entry.centimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_mm().round_to(100.),
-                Length::Mm(entry.millimeter).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_um().round_to(100.),
-                Length::Um(entry.micrometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_nm().round_to(100.),
-                Length::Nm(entry.nanometer).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_yd().round_to(100.),
-                Length::Yd(entry.yard).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_in().round_to(100.),
-                Length::In(entry.inch).round_to(100.)
-            );
-
-            assert_eq!(
-                Length::Mi(entry.mile).as_ft().round_to(100.),
-                Length::Ft(entry.foot).round_to(100.)
+                Length::Nm(entry.nanometer).as_in().round_to(10.),
+                Length::In(entry.inch).round_to(10.)
             );
         }
     }

@@ -18,8 +18,7 @@ impl Temp {
             Self::C(val) => Self::C(*val),
             Self::F(val) => {
                 let raw = (val - 32.) * (5. / 9.);
-
-                Temp::C(raw)
+                Self::C(raw)
             }
             Self::K(val) => Temp::C(val - 273.15),
         }
@@ -29,13 +28,11 @@ impl Temp {
         match self {
             Self::C(temp) => {
                 let raw = (temp * (9. / 5.)) + 32.;
-
-                Temp::F(raw)
+                Self::F(raw)
             }
             Self::F(val) => Self::F(*val),
             Self::K(temp) => {
                 let raw = (temp - 273.15) * (9. / 5.) + 32.;
-
                 Self::F(raw)
             }
         }
@@ -46,8 +43,7 @@ impl Temp {
             Self::C(val) => Self::K(val + 273.15),
             Self::F(_) => {
                 let c: f32 = self.as_c().into();
-
-                Temp::K(c + 273.15)
+                Self::K(c + 273.15)
             }
             Self::K(val) => Self::K(*val),
         }

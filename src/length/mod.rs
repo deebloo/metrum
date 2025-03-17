@@ -27,10 +27,10 @@ impl Length {
             Self::Mi(val) => Self::In(val * 63360.),
             Self::M(val) => Self::In(val * 39.3701),
             Self::Km(val) => Self::In(val * 39370.1),
-            Self::Cm(val) => Self::In(val * 0.393701),
-            Self::Mm(val) => Self::In(val * 0.0393701),
-            Self::Um(val) => Self::In(val * 0.0000393701),
-            Self::Nm(val) => Self::In(val * 0.0000000393701),
+            Self::Cm(val) => Self::In(val / 2.54),
+            Self::Mm(val) => Self::In(val / 25.4),
+            Self::Um(val) => Self::In(val / 25400.),
+            Self::Nm(val) => Self::In(val / 2.54e+7),
         }
     }
 
@@ -42,10 +42,10 @@ impl Length {
             Self::Mi(val) => Self::Ft(val * 5280.),
             Self::M(val) => Self::Ft(val * 3.28084),
             Self::Km(val) => Self::Ft(val * 3280.84),
-            Self::Cm(val) => Self::Ft(val * 0.0328084),
-            Self::Mm(val) => Self::Ft(val * 0.00328084),
-            Self::Um(val) => Self::Ft(val * 0.00000328084),
-            Self::Nm(val) => Self::Ft(val * 0.00000000328084),
+            Self::Cm(val) => Self::Ft(val / 30.48),
+            Self::Mm(val) => Self::Ft(val / 304.8),
+            Self::Um(val) => Self::Ft(val / 304800.),
+            Self::Nm(val) => Self::Ft(val / 3.048e+8),
         }
     }
 
@@ -57,10 +57,10 @@ impl Length {
             Self::Mi(val) => Self::Yd(val * 1760.),
             Self::M(val) => Self::Yd(val * 1.09361),
             Self::Km(val) => Self::Yd(val * 1093.61),
-            Self::Cm(val) => Self::Yd(val * 0.0109361),
-            Self::Mm(val) => Self::Yd(val * 0.00109361),
-            Self::Um(val) => Self::Yd(val * 0.00000109361),
-            Self::Nm(val) => Self::Yd(val * 0.00000000109361),
+            Self::Cm(val) => Self::Yd(val / 91.44),
+            Self::Mm(val) => Self::Yd(val / 914.4),
+            Self::Um(val) => Self::Yd(val / 914400.),
+            Self::Nm(val) => Self::Yd(val / 9.144e+8),
         }
     }
 
@@ -114,7 +114,7 @@ impl Length {
             Self::In(val) => Self::Cm(val * 2.54),
             Self::Ft(val) => Self::Cm(val * 30.48),
             Self::Yd(val) => Self::Cm(val * 91.44),
-            Self::Mi(val) => Self::Cm(val * 160934.),
+            Self::Mi(val) => Self::Cm(val * 160934.4),
             Self::M(val) => Self::Cm(val * 100.),
             Self::Km(val) => Self::Cm(val * 100000.),
             Self::Cm(_) => *self,
@@ -209,7 +209,6 @@ mod tests {
     }
 
     #[test]
-
     fn should_convert_meter_to_others() {
         let data_string = fs::read_to_string("data/lengths.json").unwrap();
         let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();

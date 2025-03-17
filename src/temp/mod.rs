@@ -1,4 +1,5 @@
 pub mod into;
+mod ops;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -10,19 +11,19 @@ pub struct Temp {
 }
 
 impl Temp {
-    pub fn c(val: f64) -> Self {
+    pub fn from_c(val: f64) -> Self {
         Temp {
             kelvin: val + 273.15,
         }
     }
 
-    pub fn f(val: f64) -> Self {
+    pub fn from_f(val: f64) -> Self {
         Self {
             kelvin: (val - 32.) * 5. / 9. + 273.15,
         }
     }
 
-    pub fn k(val: f64) -> Self {
+    pub fn from_k(val: f64) -> Self {
         Temp { kelvin: val }
     }
 
@@ -61,9 +62,9 @@ mod tests {
         }];
 
         for temp in temps {
-            let f_source = Temp::f(temp.fahrenheit);
-            let c_source = Temp::c(temp.celsius);
-            let k_source = Temp::k(temp.kelvin);
+            let f_source = Temp::from_f(temp.fahrenheit);
+            let c_source = Temp::from_c(temp.celsius);
+            let k_source = Temp::from_k(temp.kelvin);
 
             // convert to celcius
             assert_eq!(f_source.as_c(), temp.celsius);

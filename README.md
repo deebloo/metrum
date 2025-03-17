@@ -13,7 +13,7 @@ For example you can subtract 10degC from 86degF. The crate will handle the conve
 ```rust
 use metrum:Temp;
 
-let value = Temp::F(86.) - Temp::C(10.);
+let value = Temp::from_f(86.) - Temp::from_c(10.);
 
 println("{}", value.as_k()); // 275.372
 ```
@@ -23,7 +23,7 @@ This also means you can safely compare temperatures in two different units
 ```rust
 use metrum:Temp;
 
-let value = Temp::F(86.) == Temp::C(30.); // true
+let value = Temp::from_f(86.) == Temp::from_c(30.); // true
 ```
 
 Temps can be safely serialized and deserialized using serde when the `serde` feature is enabled.

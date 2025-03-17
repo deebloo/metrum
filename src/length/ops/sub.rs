@@ -63,382 +63,68 @@ impl Sub for Length {
 mod tests {
     use super::*;
 
-    // Mile Subtraction Tests
-    #[test]
-    fn test_mile_subtraction_with_mile() {
-        let val = Length::Mi(3.0);
-        let rhs = Length::Mi(2.0);
-        let result = val - rhs;
-        if let Length::Mi(result_val) = result {
-            assert_eq!(result_val, 1.0);
-        } else {
-            panic!("Expected result to be in miles");
+    fn test_combinations(base_unit: Length) {
+        let units = vec![
+            Length::In(63360.),
+            Length::Ft(5280.),
+            Length::Yd(1760.),
+            Length::Mi(1.),
+            Length::Km(1.609344),
+            Length::Cm(160934.4),
+            Length::Mm(1.609344e+6),
+            Length::Um(1.609344e+9),
+            Length::Nm(1.609344e+12),
+        ];
+
+        for unit in units {
+            let res: f64 = (base_unit - unit).round_to(10.).into();
+            // Results should All equal 0
+            assert_eq!(res, 0.);
         }
     }
 
     #[test]
-    fn test_mile_subtraction_with_meter() {
-        let val = Length::Mi(3.0);
-        let rhs = Length::M(1609.34);
-        let result = val - rhs;
-        if let Length::Mi(result_val) = result {
-            assert_eq!(result_val.round(), 2.0);
-        } else {
-            panic!("Expected result to be in miles");
-        }
+    fn inch_subscription() {
+        test_combinations(Length::In(63360.));
     }
 
     #[test]
-    fn test_mile_subtraction_with_kilometer() {
-        let val = Length::Mi(3.0);
-        let rhs = Length::Km(1.60934);
-        let result = val - rhs;
-        if let Length::Mi(result_val) = result {
-            assert_eq!(result_val.round(), 2.0);
-        } else {
-            panic!("Expected result to be in miles");
-        }
+    fn foot_subscription() {
+        test_combinations(Length::Ft(5280.));
     }
 
     #[test]
-    fn test_mile_subtraction_with_centimeter() {
-        let val = Length::Mi(3.0);
-        let rhs = Length::Cm(160934.0);
-        let result = val - rhs;
-        if let Length::Mi(result_val) = result {
-            assert_eq!(result_val.round(), 2.0);
-        } else {
-            panic!("Expected result to be in miles");
-        }
+    fn yard_subscription() {
+        test_combinations(Length::Yd(1760.));
     }
 
     #[test]
-    fn test_mile_subtraction_with_millimeter() {
-        let val = Length::Mi(3.0);
-        let rhs = Length::Mm(1609000.0);
-        let result = val - rhs;
-        if let Length::Mi(result_val) = result {
-            assert_eq!(result_val.round(), 2.0);
-        } else {
-            panic!("Expected result to be in miles");
-        }
+    fn mile_subscription() {
+        test_combinations(Length::Mi(1.));
     }
 
     #[test]
-    fn test_mile_subtraction_with_micrometer() {
-        let val = Length::Mi(3.0);
-        let rhs = Length::Um(1609000000.0);
-        let result = val - rhs;
-        if let Length::Mi(result_val) = result {
-            assert_eq!(result_val.round(), 2.0);
-        } else {
-            panic!("Expected result to be in miles");
-        }
+    fn km_subscription() {
+        test_combinations(Length::Km(1.609344));
     }
 
     #[test]
-    fn test_mile_subtraction_with_nanometer() {
-        let val = Length::Mi(3.0);
-        let rhs = Length::Nm(1609000000000.0);
-        let result = val - rhs;
-        if let Length::Mi(result_val) = result {
-            assert_eq!(result_val.round(), 2.0);
-        } else {
-            panic!("Expected result to be in miles");
-        }
-    }
-
-    // Meter Subtraction Tests
-    #[test]
-    fn test_meter_subtraction_with_meter() {
-        let val = Length::M(5.0);
-        let rhs = Length::M(3.0);
-        let result = val - rhs;
-        if let Length::M(result_val) = result {
-            assert_eq!(result_val, 2.0);
-        } else {
-            panic!("Expected result to be in meters");
-        }
+    fn cm_subscription() {
+        test_combinations(Length::Cm(160934.4));
     }
 
     #[test]
-    fn test_meter_subtraction_with_kilometer() {
-        let val = Length::M(2000.0);
-        let rhs = Length::Km(1.0);
-        let result = val - rhs;
-        if let Length::M(result_val) = result {
-            assert_eq!(result_val, 1000.0);
-        } else {
-            panic!("Expected result to be in meters");
-        }
+    fn mm_subscription() {
+        test_combinations(Length::Mm(1.609344e+6));
     }
 
     #[test]
-    fn test_meter_subtraction_with_centimeter() {
-        let val = Length::M(2.0);
-        let rhs = Length::Cm(100.0);
-        let result = val - rhs;
-        if let Length::M(result_val) = result {
-            assert_eq!(result_val, 1.0);
-        } else {
-            panic!("Expected result to be in meters");
-        }
+    fn um_subscription() {
+        test_combinations(Length::Um(1.609344e+9));
     }
 
     #[test]
-    fn test_meter_subtraction_with_millimeter() {
-        let val = Length::M(2.0);
-        let rhs = Length::Mm(1000.0);
-        let result = val - rhs;
-        if let Length::M(result_val) = result {
-            assert_eq!(result_val, 1.0);
-        } else {
-            panic!("Expected result to be in meters");
-        }
-    }
-
-    #[test]
-    fn test_meter_subtraction_with_micrometer() {
-        let val = Length::M(2.0);
-        let rhs = Length::Um(1000000.0);
-        let result = val - rhs;
-        if let Length::M(result_val) = result {
-            assert_eq!(result_val, 1.0);
-        } else {
-            panic!("Expected result to be in meters");
-        }
-    }
-
-    #[test]
-    fn test_meter_subtraction_with_nanometer() {
-        let val = Length::M(2.0);
-        let rhs = Length::Nm(1000000000.0);
-        let result = val - rhs;
-        if let Length::M(result_val) = result {
-            assert_eq!(result_val, 1.0);
-        } else {
-            panic!("Expected result to be in meters");
-        }
-    }
-
-    // Kilometer Subtraction Tests
-    #[test]
-    fn test_kilometer_subtraction_with_kilometer() {
-        let val = Length::Km(5.0);
-        let rhs = Length::Km(3.0);
-        let result = val - rhs;
-        if let Length::Km(result_val) = result {
-            assert_eq!(result_val, 2.0);
-        } else {
-            panic!("Expected result to be in kilometers");
-        }
-    }
-
-    #[test]
-    fn test_kilometer_subtraction_with_meter() {
-        let val = Length::Km(2.0);
-        let rhs = Length::M(1000.0);
-        let result = val - rhs;
-        if let Length::Km(result_val) = result {
-            assert_eq!(result_val, 1.0);
-        } else {
-            panic!("Expected result to be in kilometers");
-        }
-    }
-
-    #[test]
-    fn test_kilometer_subtraction_with_centimeter() {
-        let val = Length::Km(1.0);
-        let rhs = Length::Cm(100000.0);
-        let result = val - rhs;
-        if let Length::Km(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in kilometers");
-        }
-    }
-
-    #[test]
-    fn test_kilometer_subtraction_with_millimeter() {
-        let val = Length::Km(1.0);
-        let rhs = Length::Mm(1000000.0);
-        let result = val - rhs;
-        if let Length::Km(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in kilometers");
-        }
-    }
-
-    #[test]
-    fn test_kilometer_subtraction_with_micrometer() {
-        let val = Length::Km(1.0);
-        let rhs = Length::Um(1000000000.0);
-        let result = val - rhs;
-        if let Length::Km(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in kilometers");
-        }
-    }
-
-    #[test]
-    fn test_kilometer_subtraction_with_nanometer() {
-        let val = Length::Km(1.0);
-        let rhs = Length::Nm(1000000000000.0);
-        let result = val - rhs;
-        if let Length::Km(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in kilometers");
-        }
-    }
-
-    // Centimeter Subtraction Tests
-    #[test]
-    fn test_centimeter_subtraction_with_centimeter() {
-        let val = Length::Cm(5.0);
-        let rhs = Length::Cm(3.0);
-        let result = val - rhs;
-        if let Length::Cm(result_val) = result {
-            assert_eq!(result_val, 2.0);
-        } else {
-            panic!("Expected result to be in centimeters");
-        }
-    }
-
-    #[test]
-    fn test_centimeter_subtraction_with_meter() {
-        let val = Length::Cm(100.0);
-        let rhs = Length::M(1.0);
-        let result = val - rhs;
-        if let Length::Cm(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in centimeters");
-        }
-    }
-
-    #[test]
-    fn test_centimeter_subtraction_with_kilometer() {
-        let val = Length::Cm(100000.0);
-        let rhs = Length::Km(1.0);
-        let result = val - rhs;
-        if let Length::Cm(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in centimeters");
-        }
-    }
-
-    // Millimeter Subtraction Tests
-    #[test]
-    fn test_millimeter_subtraction_with_millimeter() {
-        let val = Length::Mm(10.0);
-        let rhs = Length::Mm(5.0);
-        let result = val - rhs;
-        if let Length::Mm(result_val) = result {
-            assert_eq!(result_val, 5.0);
-        } else {
-            panic!("Expected result to be in millimeters");
-        }
-    }
-
-    #[test]
-    fn test_millimeter_subtraction_with_meter() {
-        let val = Length::Mm(1000.0);
-        let rhs = Length::M(1.0);
-        let result = val - rhs;
-        if let Length::Mm(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in millimeters");
-        }
-    }
-
-    #[test]
-    fn test_millimeter_subtraction_with_kilometer() {
-        let val = Length::Mm(1000000.0);
-        let rhs = Length::Km(1.0);
-        let result = val - rhs;
-        if let Length::Mm(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in millimeters");
-        }
-    }
-
-    // Micrometer Subtraction Tests
-    #[test]
-    fn test_micrometer_subtraction_with_micrometer() {
-        let val = Length::Um(5000.0);
-        let rhs = Length::Um(2000.0);
-        let result = val - rhs;
-        if let Length::Um(result_val) = result {
-            assert_eq!(result_val, 3000.0);
-        } else {
-            panic!("Expected result to be in micrometers");
-        }
-    }
-
-    #[test]
-    fn test_micrometer_subtraction_with_meter() {
-        let val = Length::Um(1000000.0);
-        let rhs = Length::M(1.0);
-        let result = val - rhs;
-        if let Length::Um(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in micrometers");
-        }
-    }
-
-    #[test]
-    fn test_micrometer_subtraction_with_kilometer() {
-        let val = Length::Um(1000000000.0);
-        let rhs = Length::Km(1.0);
-        let result = val - rhs;
-        if let Length::Um(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in micrometers");
-        }
-    }
-
-    // Nanometer Subtraction Tests
-    #[test]
-    fn test_nanometer_subtraction_with_nanometer() {
-        let val = Length::Nm(5000.0);
-        let rhs = Length::Nm(3000.0);
-        let result = val - rhs;
-        if let Length::Nm(result_val) = result {
-            assert_eq!(result_val, 2000.0);
-        } else {
-            panic!("Expected result to be in nanometers");
-        }
-    }
-
-    #[test]
-    fn test_nanometer_subtraction_with_meter() {
-        let val = Length::Nm(1000000000.0);
-        let rhs = Length::M(1.0);
-        let result = val - rhs;
-        if let Length::Nm(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in nanometers");
-        }
-    }
-
-    #[test]
-    fn test_nanometer_subtraction_with_kilometer() {
-        let val = Length::Nm(1000000000000.0);
-        let rhs = Length::Km(1.0);
-        let result = val - rhs;
-        if let Length::Nm(result_val) = result {
-            assert_eq!(result_val, 0.0);
-        } else {
-            panic!("Expected result to be in nanometers");
-        }
+    fn nm_subscription() {
+        test_combinations(Length::Nm(1.609344e+12));
     }
 }

@@ -1,122 +1,81 @@
-pub mod into_temp;
-mod ops;
+pub mod into;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-pub enum Temp {
-    C(f32),
-    F(f32),
-    K(f32),
+pub struct Temp {
+    kelvin: f64,
 }
 
 impl Temp {
-    pub fn as_c(&self) -> Self {
-        match self {
-            Self::C(val) => Self::C(*val),
-            Self::F(val) => {
-                let raw = (val - 32.) * (5. / 9.);
-
-                Temp::C(raw)
-            }
-            Self::K(val) => Temp::C(val - 273.15),
+    pub fn c(val: f64) -> Self {
+        Temp {
+            kelvin: val + 273.15,
         }
     }
 
-    pub fn as_f(&self) -> Self {
-        match self {
-            Self::C(temp) => {
-                let raw = (temp * (9. / 5.)) + 32.;
-
-                Temp::F(raw)
-            }
-            Self::F(val) => Self::F(*val),
-            Self::K(temp) => {
-                let raw = (temp - 273.15) * (9. / 5.) + 32.;
-
-                Self::F(raw)
-            }
+    pub fn f(val: f64) -> Self {
+        Self {
+            kelvin: (val - 32.) * 5. / 9. + 273.15,
         }
     }
 
-    pub fn as_k(&self) -> Self {
-        match self {
-            Self::C(val) => Self::K(val + 273.15),
-            Self::F(_) => {
-                let c: f32 = self.as_c().into();
-
-                Temp::K(c + 273.15)
-            }
-            Self::K(val) => Self::K(*val),
-        }
+    pub fn k(val: f64) -> Self {
+        Temp { kelvin: val }
     }
 
-    pub fn round_to(&self, places: f32) -> Self {
-        match self {
-            Self::C(val) => Self::C(round(*val, places)),
-            Self::F(val) => Self::F(round(*val, places)),
-            Self::K(val) => Self::K(round(*val, places)),
-        }
+    pub fn as_c(&self) -> f64 {
+        self.kelvin - 273.15
     }
 
-    pub fn round(&self) -> Self {
-        match self {
-            Self::C(val) => Self::C(round(*val, 10.)),
-            Self::F(val) => Self::F(round(*val, 10.)),
-            Self::K(val) => Self::K(round(*val, 10.)),
-        }
+    pub fn as_f(&self) -> f64 {
+        (self.kelvin - 273.15) * (9. / 5.) + 32.
     }
-}
 
-fn round(val: f32, places: f32) -> f32 {
-    (val * places).round() / places
-}
-
-impl Into<f32> for Temp {
-    fn into(self) -> f32 {
-        match self {
-            Self::C(val) => val,
-            Self::F(val) => val,
-            Self::K(val) => val,
-        }
+    pub fn as_k(&self) -> f64 {
+        self.kelvin
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use super::*;
 
-    #[derive(Debug, Serialize, Deserialize)]
-    struct TestData(Vec<Conversion>);
+    use std::vec;
 
     #[derive(Debug, Serialize, Deserialize)]
     struct Conversion {
-        celsius: f32,
-        fahrenheit: f32,
-        kelvin: f32,
+        celsius: f64,
+        fahrenheit: f64,
+        kelvin: f64,
     }
 
     #[test]
     fn should_convert_correctly() {
-        let data_string = fs::read_to_string("data/temps.json").unwrap();
-        let data = serde_json::from_str::<TestData>(data_string.as_str()).unwrap();
+        let temps = vec![Conversion {
+            celsius: 0.,
+            fahrenheit: 32.,
+            kelvin: 273.15,
+        }];
 
-        for entry in data.0 {
+        for temp in temps {
+            let f_source = Temp::f(temp.fahrenheit);
+            let c_source = Temp::c(temp.celsius);
+            let k_source = Temp::k(temp.kelvin);
+
             // convert to celcius
-            assert_eq!(Temp::F(entry.fahrenheit).as_c(), Temp::C(entry.celsius));
-            assert_eq!(Temp::K(entry.kelvin).as_c(), Temp::C(entry.celsius));
+            assert_eq!(f_source.as_c(), temp.celsius);
+            assert_eq!(k_source.as_c(), temp.celsius);
 
             // convert to farenheit
-            assert_eq!(Temp::C(entry.celsius).as_f(), Temp::F(entry.fahrenheit));
-            assert_eq!(Temp::K(entry.kelvin).as_f(), Temp::F(entry.fahrenheit));
+            assert_eq!(c_source.as_f(), temp.fahrenheit);
+            assert_eq!(k_source.as_f(), temp.fahrenheit);
 
             // convert to kelvin
-            assert_eq!(Temp::C(entry.celsius).as_k(), Temp::K(entry.kelvin));
-            assert_eq!(Temp::F(entry.fahrenheit).as_k(), Temp::K(entry.kelvin));
+            assert_eq!(c_source.as_k(), temp.kelvin);
+            assert_eq!(f_source.as_k(), temp.kelvin);
         }
     }
 }

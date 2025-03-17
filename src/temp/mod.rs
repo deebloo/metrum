@@ -1,4 +1,3 @@
-pub mod into;
 mod ops;
 
 #[cfg(feature = "serde")]
@@ -12,19 +11,19 @@ pub struct Temp {
 
 impl Temp {
     pub fn from_c(val: f64) -> Self {
-        Temp {
+        Self {
             kelvin: val + 273.15,
         }
     }
 
     pub fn from_f(val: f64) -> Self {
         Self {
-            kelvin: (val - 32.) * 5. / 9. + 273.15,
+            kelvin: (val - 32.) * (5. / 9.) + 273.15,
         }
     }
 
     pub fn from_k(val: f64) -> Self {
-        Temp { kelvin: val }
+        Self { kelvin: val }
     }
 
     pub fn as_c(&self) -> f64 {
@@ -55,11 +54,18 @@ mod tests {
 
     #[test]
     fn should_convert_correctly() {
-        let temps = vec![Conversion {
-            celsius: 0.,
-            fahrenheit: 32.,
-            kelvin: 273.15,
-        }];
+        let temps = vec![
+            Conversion {
+                celsius: 0.,
+                fahrenheit: 32.,
+                kelvin: 273.15,
+            },
+            Conversion {
+                celsius: 10.,
+                fahrenheit: 50.,
+                kelvin: 283.15,
+            },
+        ];
 
         for temp in temps {
             let f_source = Temp::from_f(temp.fahrenheit);

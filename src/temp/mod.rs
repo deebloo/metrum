@@ -1,3 +1,4 @@
+mod from;
 pub mod into_temp;
 mod ops;
 
@@ -68,16 +69,6 @@ impl Temp {
 
 fn round(val: f32, places: f32) -> f32 {
     (val * places).round() / places
-}
-
-impl Into<f32> for Temp {
-    fn into(self) -> f32 {
-        match self {
-            Self::C(val) => val,
-            Self::F(val) => val,
-            Self::K(val) => val,
-        }
-    }
 }
 
 #[cfg(test)]

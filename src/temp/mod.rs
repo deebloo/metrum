@@ -1,4 +1,5 @@
-mod ops;
+pub mod ops;
+pub mod util;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -31,7 +32,9 @@ impl Temp {
     }
 
     pub fn as_f(&self) -> f64 {
-        (self.kelvin - 273.15) * (9. / 5.) + 32.
+        let c = self.as_c();
+
+        c * (9. / 5.) + 32.
     }
 
     pub fn as_k(&self) -> f64 {

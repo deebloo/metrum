@@ -55,6 +55,12 @@ impl Length {
         }
     }
 
+    pub fn from_ft(val: f64) -> Self {
+        Self {
+            nanometers: val * 304_800_000.0,
+        }
+    }
+
     pub fn as_m(&self) -> f64 {
         self.nanometers / 1_000_000_000.0
     }
@@ -81,6 +87,10 @@ impl Length {
 
     pub fn as_cm(&self) -> f64 {
         self.nanometers / 10_000_000.0
+    }
+
+    pub fn as_ft(&self) -> f64 {
+        self.nanometers / 304_800_000.0
     }
 }
 
@@ -110,7 +120,7 @@ mod tests {
                 um: 1_000_000.0,
                 nm: 1_000_000_000.0,
                 inch: 39.37007874015748,
-                ft: 3.280839895013123,
+                ft: 3.2808398950131235,
                 cm: 100.0,
             },
             Conversion {
@@ -130,7 +140,7 @@ mod tests {
                 um: 1000.0,
                 nm: 1_000_000.0,
                 inch: 0.03937007874015748,
-                ft: 0.0003280839895013123,
+                ft: 0.0032808398950131233,
                 cm: 0.1,
             },
         ];
@@ -186,11 +196,12 @@ mod tests {
             assert_eq!(nm_source.as_in(), length.inch);
 
             // Convert to feet
-            // assert_eq!(m_source.as_ft(), length.ft);
-            // assert_eq!(km_source.as_ft(), length.ft);
-            // assert_eq!(mm_source.as_ft(), length.ft);
-            // assert_eq!(um_source.as_ft(), length.ft);
-            // assert_eq!(nm_source.as_ft(), length.ft);
+            assert_eq!(m_source.as_ft(), length.ft);
+            assert_eq!(km_source.as_ft(), length.ft);
+            assert_eq!(mm_source.as_ft(), length.ft);
+            assert_eq!(um_source.as_ft(), length.ft);
+            assert_eq!(nm_source.as_ft(), length.ft);
+            assert_eq!(inchsource.as_ft(), length.ft);
 
             // Convert to centimeters
             assert_eq!(m_source.as_cm(), length.cm);

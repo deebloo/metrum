@@ -41,9 +41,9 @@ mod tests {
     #[test]
     fn test_div_different_units() {
         let l1 = Length::from_m(1.0);
-        let l2 = Length::from_cm(50.0);
+        let l2 = Length::from_ft(1.0);
         let ratio = l1 / l2;
-        assert_eq!(ratio, 2.0);
+        assert_eq!(ratio, 3.2808398950131235);
     }
 
     #[test]

@@ -40,10 +40,10 @@ mod tests {
 
     #[test]
     fn test_div_different_units() {
-        let l1 = Length::from_m(1.0);
-        let l2 = Length::from_yd(1.0);
+        let l1 = Length::from_m(1609.344);
+        let l2 = Length::from_mi(1.0);
         let ratio = l1 / l2;
-        assert_eq!(ratio, 1.0936132983377078);
+        assert_eq!(ratio, 1.0);
     }
 
     #[test]

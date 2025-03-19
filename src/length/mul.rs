@@ -67,8 +67,8 @@ mod tests {
 
     #[test]
     fn test_mul_different_units() {
-        let l1 = Length::from_yd(1.0);
+        let l1 = Length::from_mi(1.0);
         let product = l1 * 2.0;
-        assert_eq!(product.as_m(), 1.8288);
+        assert_eq!(product.as_m(), 3218.688);
     }
 }

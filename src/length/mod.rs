@@ -67,6 +67,12 @@ impl Length {
         }
     }
 
+    pub fn from_mi(val: f64) -> Self {
+        Self {
+            nanometers: val * 1_609_344_000_000.0,
+        }
+    }
+
     pub fn as_m(&self) -> f64 {
         self.nanometers / 1_000_000_000.0
     }
@@ -102,6 +108,10 @@ impl Length {
     pub fn as_yd(&self) -> f64 {
         self.nanometers / 914_400_000.0
     }
+
+    pub fn as_mi(&self) -> f64 {
+        self.nanometers / 1_609_344_000_000.0
+    }
 }
 
 #[cfg(test)]
@@ -119,6 +129,7 @@ mod tests {
         ft: f64,   // feet
         cm: f64,   // centimeters
         yd: f64,   // yards
+        mi: f64,   // miles
     }
 
     #[test]
@@ -134,6 +145,7 @@ mod tests {
                 ft: 3.2808398950131235,
                 cm: 100.0,
                 yd: 1.0936132983377078,
+                mi: 0.0006213711922373339,
             },
             Conversion {
                 m: 1000.0,
@@ -145,6 +157,7 @@ mod tests {
                 ft: 3280.839895013123,
                 cm: 100000.0,
                 yd: 1093.6132983377078,
+                mi: 0.621371192237334,
             },
             Conversion {
                 m: 0.001,
@@ -156,6 +169,7 @@ mod tests {
                 ft: 0.0032808398950131233,
                 cm: 0.1,
                 yd: 0.0010936132983377078,
+                mi: 0.000000621371192237334,
             },
         ];
 
@@ -231,6 +245,14 @@ mod tests {
             assert_eq!(um_source.as_yd(), length.yd);
             assert_eq!(nm_source.as_yd(), length.yd);
             assert_eq!(inchsource.as_yd(), length.yd);
+
+            // Convert to miles
+            assert_eq!(m_source.as_mi(), length.mi);
+            assert_eq!(km_source.as_mi(), length.mi);
+            assert_eq!(mm_source.as_mi(), length.mi);
+            assert_eq!(um_source.as_mi(), length.mi);
+            assert_eq!(nm_source.as_mi(), length.mi);
+            assert_eq!(inchsource.as_mi(), length.mi);
         }
     }
 }

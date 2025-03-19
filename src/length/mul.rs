@@ -64,4 +64,11 @@ mod tests {
         let product = l1 * 0.0;
         assert_eq!(product.as_m(), 0.0);
     }
+
+    #[test]
+    fn test_mul_different_units() {
+        let l1 = Length::from_cm(100.0);
+        let product = l1 * 2.0;
+        assert_eq!(product.as_m(), 2.0);
+    }
 }

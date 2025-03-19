@@ -49,6 +49,12 @@ impl Length {
         }
     }
 
+    pub fn from_cm(val: f64) -> Self {
+        Self {
+            nanometers: val * 10_000_000.0,
+        }
+    }
+
     pub fn as_m(&self) -> f64 {
         self.nanometers / 1_000_000_000.0
     }
@@ -72,6 +78,10 @@ impl Length {
     pub fn as_in(&self) -> f64 {
         self.nanometers / 25_400_000.0
     }
+
+    pub fn as_cm(&self) -> f64 {
+        self.nanometers / 10_000_000.0
+    }
 }
 
 #[cfg(test)]
@@ -86,6 +96,8 @@ mod tests {
         um: f64,   // micrometers
         nm: f64,   // nanometers
         inch: f64, // inches
+        ft: f64,   // feet
+        cm: f64,   // centimeters
     }
 
     #[test]
@@ -98,6 +110,8 @@ mod tests {
                 um: 1_000_000.0,
                 nm: 1_000_000_000.0,
                 inch: 39.37007874015748,
+                ft: 3.280839895013123,
+                cm: 100.0,
             },
             Conversion {
                 m: 1000.0,
@@ -106,6 +120,8 @@ mod tests {
                 um: 1_000_000_000.0,
                 nm: 1_000_000_000_000.0,
                 inch: 39370.07874015748,
+                ft: 3280.839895013123,
+                cm: 100000.0,
             },
             Conversion {
                 m: 0.001,
@@ -114,6 +130,8 @@ mod tests {
                 um: 1000.0,
                 nm: 1_000_000.0,
                 inch: 0.03937007874015748,
+                ft: 0.0003280839895013123,
+                cm: 0.1,
             },
         ];
 
@@ -166,6 +184,20 @@ mod tests {
             assert_eq!(mm_source.as_in(), length.inch);
             assert_eq!(um_source.as_in(), length.inch);
             assert_eq!(nm_source.as_in(), length.inch);
+
+            // Convert to feet
+            // assert_eq!(m_source.as_ft(), length.ft);
+            // assert_eq!(km_source.as_ft(), length.ft);
+            // assert_eq!(mm_source.as_ft(), length.ft);
+            // assert_eq!(um_source.as_ft(), length.ft);
+            // assert_eq!(nm_source.as_ft(), length.ft);
+
+            // Convert to centimeters
+            assert_eq!(m_source.as_cm(), length.cm);
+            assert_eq!(km_source.as_cm(), length.cm);
+            assert_eq!(mm_source.as_cm(), length.cm);
+            assert_eq!(um_source.as_cm(), length.cm);
+            assert_eq!(inchsource.as_cm(), length.cm);
         }
     }
 }

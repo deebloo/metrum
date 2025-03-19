@@ -22,7 +22,7 @@ impl PartialEq for Temp {
         let source = self.as_k();
         let target = other.as_k();
 
-        source == target
+        (source - target).abs() < f64::EPSILON
     }
 }
 

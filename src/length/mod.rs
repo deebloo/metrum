@@ -2,6 +2,7 @@ mod add;
 mod cmp;
 mod div;
 mod mul;
+mod neg;
 mod sub;
 
 #[cfg(feature = "serde")]

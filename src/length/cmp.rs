@@ -3,8 +3,6 @@ use super::Length;
 impl PartialEq for Length {
     fn eq(&self, other: &Self) -> bool {
         (self.nanometers - other.nanometers).abs() < f64::EPSILON
-
-        // self.nanometers == other.nanometers
     }
 }
 

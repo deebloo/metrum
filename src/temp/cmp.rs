@@ -5,7 +5,15 @@ impl PartialEq for Temp {
         let source = self.as_k();
         let target = other.as_k();
 
-        (source - target).abs() < f64::EPSILON
+        let value: f64;
+
+        if source > target {
+            value = source - target;
+        } else {
+            value = target - source;
+        }
+
+        value.abs() < f64::EPSILON
     }
 }
 

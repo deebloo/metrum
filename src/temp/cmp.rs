@@ -1,28 +1,32 @@
 use crate::temp::Temp;
 
-impl PartialOrd for Temp {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        let source = self.as_k();
-        let target = other.as_k();
-
-        let mut res = std::cmp::Ordering::Equal;
-
-        if source > target {
-            res = std::cmp::Ordering::Greater;
-        } else if source < target {
-            res = std::cmp::Ordering::Less;
-        }
-
-        Some(res)
-    }
-}
-
 impl PartialEq for Temp {
     fn eq(&self, other: &Self) -> bool {
         let source = self.as_k();
         let target = other.as_k();
 
         (source - target).abs() < f64::EPSILON
+    }
+}
+
+impl PartialOrd for Temp {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        let source = self.as_k();
+        let target = other.as_k();
+
+        let res: Option<std::cmp::Ordering>;
+
+        if self == other {
+            res = Some(std::cmp::Ordering::Equal)
+        } else if source > target {
+            res = Some(std::cmp::Ordering::Greater);
+        } else if source < target {
+            res = Some(std::cmp::Ordering::Less);
+        } else {
+            res = None;
+        }
+
+        res
     }
 }
 

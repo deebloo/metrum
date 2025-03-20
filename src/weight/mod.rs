@@ -1,13 +1,14 @@
+pub mod add;
+pub mod cmp;
+pub mod div;
+pub mod mul;
+pub mod sub;
+
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-mod add;
-mod cmp;
-mod div;
-mod mul;
-mod sub;
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Weight {
     nanograms: f64, // Using nanograms as base unit for maximum precision
 }

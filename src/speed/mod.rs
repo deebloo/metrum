@@ -1,0 +1,118 @@
+use serde::{Deserialize, Serialize};
+
+mod add;
+mod cmp;
+mod div;
+mod mul;
+mod sub;
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub struct Speed {
+    meters_per_second: f64, // Using m/s as base unit for maximum precision
+}
+
+impl Speed {
+    pub fn from_mps(val: f64) -> Self {
+        Self {
+            meters_per_second: val,
+        }
+    }
+
+    pub fn from_kmph(val: f64) -> Self {
+        Self {
+            meters_per_second: val / 3.6, // Convert km/h to m/s
+        }
+    }
+
+    pub fn from_mph(val: f64) -> Self {
+        Self {
+            meters_per_second: val * 0.44704, // Convert mph to m/s
+        }
+    }
+
+    pub fn from_knots(val: f64) -> Self {
+        Self {
+            meters_per_second: val * 0.514444, // Convert knots to m/s
+        }
+    }
+
+    pub fn as_mps(&self) -> f64 {
+        self.meters_per_second
+    }
+
+    pub fn as_kmph(&self) -> f64 {
+        (self.meters_per_second * 3.6 * 10000.) / 10000. // Convert m/s to km/h
+    }
+
+    pub fn as_mph(&self) -> f64 {
+        (self.meters_per_second / 0.44704 * 10000.).round() / 10000. // Convert m/s to mph
+    }
+
+    pub fn as_knots(&self) -> f64 {
+        ((self.meters_per_second / 0.514444) * 10000.).round() / 10000. // Convert m/s to knots
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Debug, Serialize, Deserialize)]
+    struct Conversion {
+        mps: f64,   // meters per second
+        kmph: f64,  // kilometers per hour
+        mph: f64,   // miles per hour
+        knots: f64, // knots
+    }
+
+    #[test]
+    fn should_convert_correctly() {
+        let speeds = vec![
+            Conversion {
+                mps: 1.0,
+                kmph: 3.6,
+                mph: 2.23694,
+                knots: 1.94384,
+            },
+            Conversion {
+                mps: 10.0,
+                kmph: 36.0,
+                mph: 22.3694,
+                knots: 19.4384,
+            },
+            Conversion {
+                mps: 0.5,
+                kmph: 1.8,
+                mph: 1.11847,
+                knots: 0.97192,
+            },
+        ];
+
+        for speed in speeds {
+            let mps_source = Speed::from_mps(speed.mps);
+            let kmph_source = Speed::from_kmph(speed.kmph);
+            let mph_source = Speed::from_mph(speed.mph);
+            let knots_source = Speed::from_knots(speed.knots);
+
+            // Convert to meters per second
+            // assert_eq!(kmph_source.as_mps(), speed.mps);
+            // assert_eq!(mph_source.as_mps(), speed.mps);
+            // assert_eq!(knots_source.as_mps(), speed.mps);
+
+            // Convert to kilometers per hour
+            assert_eq!(mps_source.as_kmph(), speed.kmph);
+            assert_eq!(mph_source.as_kmph(), speed.kmph);
+            assert_eq!(knots_source.as_kmph(), speed.kmph);
+
+            // Convert to miles per hour
+            assert_eq!(mps_source.as_mph(), speed.mph);
+            assert_eq!(kmph_source.as_mph(), speed.mph);
+            assert_eq!(knots_source.as_mph(), speed.mph);
+
+            // Convert to knots
+            assert_eq!(mps_source.as_knots(), speed.knots);
+            assert_eq!(kmph_source.as_knots(), speed.knots);
+            assert_eq!(mph_source.as_knots(), speed.knots);
+        }
+    }
+}

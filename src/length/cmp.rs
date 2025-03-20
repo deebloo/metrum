@@ -2,7 +2,19 @@ use super::Length;
 
 impl PartialEq for Length {
     fn eq(&self, other: &Self) -> bool {
-        (self.nanometers - other.nanometers).abs() < f64::EPSILON
+        let mut epsilon: f64 = f64::EPSILON;
+
+        if (self.nanometers - other.nanometers).abs() <= epsilon {
+            return true;
+        }
+
+        epsilon = if self.nanometers > other.nanometers {
+            epsilon * self.nanometers.abs()
+        } else {
+            epsilon * other.nanometers.abs()
+        };
+
+        (self.nanometers - other.nanometers).abs() <= epsilon
     }
 }
 

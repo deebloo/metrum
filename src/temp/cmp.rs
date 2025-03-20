@@ -1,19 +1,23 @@
-use crate::temp::Temp;
+use super::Temp;
 
 impl PartialEq for Temp {
     fn eq(&self, other: &Self) -> bool {
         let source = self.as_k();
         let target = other.as_k();
 
-        let value: f64;
+        let mut epsilon: f64 = f64::EPSILON;
 
-        if source > target {
-            value = source - target;
-        } else {
-            value = target - source;
+        if (source - target).abs() <= epsilon {
+            return true;
         }
 
-        value.abs() < f64::EPSILON
+        epsilon = if source > target {
+            epsilon * source.abs()
+        } else {
+            epsilon * target.abs()
+        };
+
+        (source - target).abs() <= epsilon
     }
 }
 
@@ -22,19 +26,15 @@ impl PartialOrd for Temp {
         let source = self.as_k();
         let target = other.as_k();
 
-        let res: Option<std::cmp::Ordering>;
-
         if self == other {
-            res = Some(std::cmp::Ordering::Equal)
+            Some(std::cmp::Ordering::Equal)
         } else if source > target {
-            res = Some(std::cmp::Ordering::Greater);
+            Some(std::cmp::Ordering::Greater)
         } else if source < target {
-            res = Some(std::cmp::Ordering::Less);
+            Some(std::cmp::Ordering::Less)
         } else {
-            res = None;
+            None
         }
-
-        res
     }
 }
 

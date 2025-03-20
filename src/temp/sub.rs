@@ -1,4 +1,4 @@
-use crate::temp::Temp;
+use super::Temp;
 use std::ops::Sub;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
@@ -6,18 +6,29 @@ pub struct TempDelta {
     value: f64,
 }
 
+impl TempDelta {
+    pub fn as_f(&self) -> f64 {
+        self.value * (9. / 5.)
+    }
+
+    pub fn as_c(&self) -> f64 {
+        self.value
+    }
+
+    pub fn as_k(&self) -> f64 {
+        self.value
+    }
+}
+
 impl Sub for Temp {
     type Output = TempDelta;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        // Convert both temperatures to Kelvin and subtract
         let k1 = self.as_k();
         let k2 = rhs.as_k();
 
-        if k1 > k2 {
-            TempDelta { value: k1 - k2 }
-        } else {
-            TempDelta { value: k2 - k1 }
+        TempDelta {
+            value: (k1 - k2).abs(),
         }
     }
 }
@@ -25,6 +36,13 @@ impl Sub for Temp {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn foo() {
+        let cc = Temp::from_c(10.) - Temp::from_f(25.);
+
+        assert_eq!(cc.as_f(), 25.000000000000046);
+    }
 
     #[test]
     fn should_sub_from_c() {

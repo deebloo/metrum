@@ -1,5 +1,5 @@
-mod cmp;
-mod sub;
+pub mod cmp;
+pub mod sub;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

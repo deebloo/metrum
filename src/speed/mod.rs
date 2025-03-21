@@ -1,12 +1,14 @@
-use serde::{Deserialize, Serialize};
-
 mod add;
 mod cmp;
 mod div;
 mod mul;
 mod sub;
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Speed {
     meters_per_second: f64, // Using m/s as base unit for maximum precision
 }

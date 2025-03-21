@@ -28,13 +28,13 @@ impl Speed {
 
     pub fn from_mph(val: f64) -> Self {
         Self {
-            meters_per_second: (val * 0.44704 * 10_000.).round() / 10_000., // Convert mph to m/s
+            meters_per_second: (val * 0.44704 * 100_000_000.).round() / 100_000_000., // Convert mph to m/s
         }
     }
 
     pub fn from_knots(val: f64) -> Self {
         Self {
-            meters_per_second: (val * 0.514444 * 10_000.).round() / 10_000., // Convert knots to m/s
+            meters_per_second: (val * 0.514444 * 100_000_000.).round() / 100_000_000., // Convert knots to m/s
         }
     }
 

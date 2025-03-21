@@ -4,29 +4,59 @@ Easily handle measurement values in rust.
 
 The goal is to work with measurements without needing to think about about units until you absolutely have to.
 
-For example: A `Temp` is itself a value. The units are just for display back to the user.
+## Length
 
-You can compare and combine temps safely without manually converting to and from different units.
+| Unit | Constructor | Conversion |
+| ---- | ----------- | ---------- |
+|      |             |            |
 
-For example you can subtract 10degC from 86degF. The crate will handle the conversions internally and give you a result in the initial unit.
+
+### Units
+
+| Unit        | Constructor           | Conversion    |
+| ----------- | --------------------- | ------------- |
+| Celcius     | `Temp::from_c(value)` | `temp.as_c()` |
+| Farenheight | `Temp::from_f(value)` | `temp.as_f()` |
+| Kelvin      | `Temp::from_k(value)` | `temp.as_k()` |
+
+## Speed
+
+| Unit  | Constructor               | Conversion        |
+| ----- | ------------------------- | ----------------- |
+| MPS   | `Temp::from_mps(value)`   | `temp.as_mps()`   |
+| KPH   | `Temp::from_kph(value)`   | `temp.as_kph()`   |
+| MPH   | `Temp::from_mph(value)`   | `temp.as_mph()`   |
+| Knots | `Temp::from_knots(value)` | `temp.as_knots()` |
+
+## Temp
+
+| Unit        | Constructor           | Conversion    |
+| ----------- | --------------------- | ------------- |
+| Celcius     | `Temp::from_c(value)` | `temp.as_c()` |
+| Farenheight | `Temp::from_f(value)` | `temp.as_f()` |
+| Kelvin      | `Temp::from_k(value)` | `temp.as_k()` |
+
 
 ```rust
-use metrum:Temp;
+use metrum::Temp;
+use metrum::temp::TempDelta;
 
-let value = Temp::from_f(86.) - Temp::from_c(10.);
+let from_f = Temp::from_f(32.);
+let from_c = Temp::from_c(0.);
 
-println("{}", value.as_k()); // 275.372
+assert_eq!(from_f, from_c);
+assert_eq!(from_f - from_c, TempDelta { value: 0. });
 ```
 
-This also means you can safely compare temperatures in two different units
+## Weight
 
-```rust
-use metrum:Temp;
+| Unit | Constructor | Conversion |
+| ---- | ----------- | ---------- |
+|      |             |            |
 
-let value = Temp::from_f(86.) == Temp::from_c(30.); // true
-```
 
-Temps can be safely serialized and deserialized using serde when the `serde` feature is enabled.
+## Serde
+Values can be safely serialized and deserialized using serde when the `serde` feature is enabled.
 
 ```toml
 [dependencies]

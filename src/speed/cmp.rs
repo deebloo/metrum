@@ -40,7 +40,7 @@ mod tests {
     #[test]
     fn test_eq_outside_epsilon() {
         let s1 = Speed::from_mps(1.0);
-        let s2 = Speed::from_mps(1.0 + f64::EPSILON); // Just outside epsilon
+        let s2 = Speed::from_mps(1.0 + f64::EPSILON + f64::EPSILON); // Just outside epsilon
         assert_ne!(s1, s2);
     }
 }

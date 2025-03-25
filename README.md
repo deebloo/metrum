@@ -60,5 +60,13 @@ Values can be safely serialized and deserialized using serde when the `serde` fe
 
 ```toml
 [dependencies]
-metrum = { version = "0.5.0", features = ["serde"] }
+metrum = { version = "*", features = ["serde"] }
+```
+
+## WASM
+Metrum has limited compatibility with WASM and wasm-packg
+
+```toml
+[dependencies]
+metrum = { version = "*", features = ["wasm"] }
 ```

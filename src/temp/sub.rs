@@ -3,7 +3,7 @@ use std::ops::Sub;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct TempDelta {
-    value: f64,
+    pub value: f64,
 }
 
 impl TempDelta {

@@ -9,11 +9,13 @@ documentation = "https://docs.rs/metrum/0.5.0"
 
 [dependencies]
 serde = { version = "1.0.197", optional = true, features = ["derive"] }
+wasm-bindgen = { version = "0.2.100", optional = true }
 
 [features]
 serde = ["dep:serde"]
+wasm = ["dep:wasm-bindgen"]
 
 [dev-dependencies]
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = { version = "1.0.115" }
-metrum = { path = ".", features = ["serde"] }
+metrum = { path = ".", features = ["serde", "wasm"] }

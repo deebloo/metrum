@@ -4,15 +4,20 @@ pub mod div;
 pub mod mul;
 pub mod sub;
 
+#[cfg(feature = "wasm")]
+use wasm_bindgen::prelude::*;
+
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 pub struct Weight {
     nanograms: f64, // Using nanograms as base unit for maximum precision
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 impl Weight {
     pub fn from_kg(val: f64) -> Self {
         Self {

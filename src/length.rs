@@ -5,15 +5,20 @@ pub mod mul;
 pub mod neg;
 pub mod sub;
 
+#[cfg(feature = "wasm")]
+use wasm_bindgen::prelude::*;
+
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 pub struct Length {
     nanometers: f64,
 }
 
+#[cfg_attr(feature = "wasm", wasm_bindgen)]
 impl Length {
     pub fn from_m(val: f64) -> Self {
         Self {
